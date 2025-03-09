@@ -1,32 +1,82 @@
-# Tecnologias Emergentes - Template 01
+# Node.js API - Gerenciamento de Usuários
 
-Este projeto tem como objetivo proporcionar um ambiente prático para o desenvolvimento e treinamento na criação de APIs utilizando **Node.js** e **Express**. Com a crescente demanda por aplicações baseadas em arquitetura de micro-serviços e integrações via APIs.
+Este é um projeto básico de API REST para gerenciamento de usuários utilizando **Node.js, Express e MongoDB** para a aula de Tecnologias Emergentes, 5° Semestre de Engenharia de Software
 
-## Requisitos
+## 🚀 Tecnologias Utilizadas
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- Dotenv
+- Morgan
+- Helmet
+- Cors
+- HTTP Status Codes
 
-- [Node.js](https://nodejs.org/)
-- [Postman](https://www.postman.com/)
-- [VsCode](https://code.visualstudio.com/)
+## 📌 Como Rodar o Projeto
 
-## Banco de Dados
-
-Para este projeto, vamos utilizar o **MongoDb** que é um banco de dados não relacional. Um banco de dados não relacional, é um tipo de banco de dados projetado para armazenar e gerenciar grandes volumes de dados de maneira flexível, sem a necessidade de um esquema rígido como nos bancos relacionais tradicionais.
-
-- [Atlas](https://account.mongodb.com/)
-
-## Rodar o Projeto
-
-Primeiramente devemos criar um arquivo de variáveis de ambiente que vamos rodar localmente, para isso na raiz do projeto crie um arquivo `.env` seguindo o modelo `.env.example` disponível no projeto.
-
-Após isso as dependências podem ser instaladas com o comando abaixo
-
-```bash
-$ npm install
+### 1️⃣ Clone o repositório
+```sh
+git clone https://github.com/becastellani/NodeApiMongo.git
+cd nome-do-repositorio
 ```
 
-Para executar o projeto pode ser executado os comandos
-
-```bash
-$ npm start
-$ npm run start:watch
+### 2️⃣ Instale as dependências
+```sh
+npm install
 ```
+
+### 3️⃣ Configure as variáveis de ambiente
+Crie um arquivo `.env` na raiz do projeto e adicione:
+```sh
+PORT=4040
+DATABASE=mongodb+srv://seu_usuario:senha@seu_cluster.mongodb.net/seu_banco
+```
+
+### 4️⃣ Inicie o servidor
+O servidor rodará na porta `4040`. A API estará disponível em `http://localhost:4040/api/user`.
+
+## 📌 Rotas da API
+
+### 1️⃣ Criar um usuário (POST)
+- **URL:** `POST /api/user`
+- **Body:**
+```json
+{
+  "name": "João Silva",
+  "email": "joao.silva@email.com",
+  "password": "123456"
+}
+```
+
+### 2️⃣ Listar usuários (GET)
+- **URL:** `GET /api/user`
+
+### 3️⃣ Atualizar parcialmente um usuário (PATCH)
+- **URL:** `PATCH /api/user/:id`
+- **Body:**
+```json
+{
+  "name": "João Souza"
+}
+```
+
+### 4️⃣ Substituir um usuário inteiro (PUT)
+- **URL:** `PUT /api/user/:id`
+- **Body:**
+```json
+{
+  "name": "Maria Oliveira",
+  "email": "maria.oliveira@email.com",
+  "password": "novaSenha123"
+}
+```
+
+### 5️⃣ Deletar um usuário (DELETE)
+- **URL:** `DELETE /api/user/:id`
+
+## 📌 Collection do Postman
+Você pode importar a coleção do Postman para testar a API:  
+[🔗 Link da Collection do Postman](https://documenter.getpostman.com/view/28679390/2sAYdoG8Aw)
+
+## 📌 Licença
+Este projeto é de código aberto e pode ser utilizado livremente.
