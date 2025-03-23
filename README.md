@@ -55,6 +55,8 @@ O servidor rodará na porta `4040`. A API estará disponível em `http://localho
 - **Query Params (opcional):**  
   - `_page`: Número da página (ex: `?page=1`)
   - `_size`: Tamanho da página (ex: `?size=10`)
+    - `_sort`: Campo para ordenação (ex: `?_sort=name`)
+  - `_order`: Ordem de ordenação (asc ou desc, ex: `?_order=asc`)
 
 #### 3️⃣ Buscar um usuário (GET)
 - **URL:** `GET /api/user/:id`
@@ -94,6 +96,8 @@ O servidor rodará na porta `4040`. A API estará disponível em `http://localho
 - **Query Params (opcional):**  
   - `_page`: Número da página (ex: `?page=1`)
   - `_size`: Tamanho da página (ex: `?size=10`)
+  - `_sort`: Campo para ordenação (ex: `?_sort=price`)
+  - `_order`: Ordem de ordenação (asc ou desc, ex: `?_order=desc`)
 
 #### 3️⃣ Buscar um produto (GET)
 - **URL:** `GET /api/product/:id`
