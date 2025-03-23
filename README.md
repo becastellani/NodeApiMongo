@@ -1,6 +1,6 @@
-# Node.js API - Gerenciamento de Usuários
+# Node.js API - Gerenciamento de Usuários e Produtos
 
-Este é um projeto básico de API REST para gerenciamento de usuários utilizando **Node.js, Express e MongoDB** para a aula de Tecnologias Emergentes, 5° Semestre de Engenharia de Software
+Este é um projeto básico de API REST para gerenciamento de **usuários** e **produtos** utilizando **Node.js, Express e MongoDB** para a aula de Tecnologias Emergentes, 5° Semestre de Engenharia de Software.
 
 ## 🚀 Tecnologias Utilizadas
 - Node.js
@@ -33,11 +33,13 @@ DATABASE=mongodb+srv://seu_usuario:senha@seu_cluster.mongodb.net/seu_banco
 ```
 
 ### 4️⃣ Inicie o servidor
-O servidor rodará na porta `4040`. A API estará disponível em `http://localhost:4040/api/user`.
+O servidor rodará na porta `4040`. A API estará disponível em `http://localhost:4040/api`.
 
 ## 📌 Rotas da API
 
-### 1️⃣ Criar um usuário (POST)
+### **Usuários**
+
+#### 1️⃣ Criar um usuário (POST)
 - **URL:** `POST /api/user`
 - **Body:**
 ```json
@@ -48,19 +50,16 @@ O servidor rodará na porta `4040`. A API estará disponível em `http://localho
 }
 ```
 
-### 2️⃣ Listar usuários (GET)
+#### 2️⃣ Listar usuários (GET)
 - **URL:** `GET /api/user`
+- **Query Params (opcional):**  
+  - `_page`: Número da página (ex: `?page=1`)
+  - `_size`: Tamanho da página (ex: `?size=10`)
 
-### 3️⃣ Atualizar parcialmente um usuário (PATCH)
-- **URL:** `PATCH /api/user/:id`
-- **Body:**
-```json
-{
-  "name": "João Souza"
-}
-```
+#### 3️⃣ Buscar um usuário (GET)
+- **URL:** `GET /api/user/:id`
 
-### 4️⃣ Substituir um usuário inteiro (PUT)
+#### 4️⃣ Atualizar um usuário (PUT)
 - **URL:** `PUT /api/user/:id`
 - **Body:**
 ```json
@@ -71,8 +70,50 @@ O servidor rodará na porta `4040`. A API estará disponível em `http://localho
 }
 ```
 
-### 5️⃣ Deletar um usuário (DELETE)
+#### 5️⃣ Deletar um usuário (DELETE)
 - **URL:** `DELETE /api/user/:id`
+
+---
+
+### **Produtos**
+
+#### 1️⃣ Criar um produto (POST)
+- **URL:** `POST /api/product`
+- **Body:**
+```json
+{
+  "name": "Teclado Mecânico",
+  "price": 299.99,
+  "category": "Periféricos",
+  "stock": 10
+}
+```
+
+#### 2️⃣ Listar produtos (GET)
+- **URL:** `GET /api/product`
+- **Query Params (opcional):**  
+  - `_page`: Número da página (ex: `?page=1`)
+  - `_size`: Tamanho da página (ex: `?size=10`)
+
+#### 3️⃣ Buscar um produto (GET)
+- **URL:** `GET /api/product/:id`
+
+#### 4️⃣ Atualizar um produto (PUT)
+- **URL:** `PUT /api/product/:id`
+- **Body:**
+```json
+{
+  "name": "Teclado RGB",
+  "price": 349.99,
+  "category": "Periféricos",
+  "stock": 8
+}
+```
+
+#### 5️⃣ Deletar um produto (DELETE)
+- **URL:** `DELETE /api/product/:id`
+
+---
 
 ## 📌 Collection do Postman
 Você pode importar a coleção do Postman para testar a API:  
