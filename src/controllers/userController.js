@@ -1,81 +1,58 @@
-import httpStatus from 'http-status';
 import User from "../models/userModel.js";
 
+export const showUser = async (req, res, next) => {
+  const user = await User.findOne(req.params);
 
-export const listUsers = async (req, res, next) => {
-    try {
-        const users = await User.find({});
-
-        res
-            .status(httpStatus.OK)
-            .send("List of users: " + users)
-    
-    } catch (error) {
-        res
-            .status(httpStatus.INTERNAL_SERVER_ERROR)
-            .json({
-                code: error.code,
-                message: error.message,
-            });    
-    }
-    
+  res.ok({
+    ...user._doc,
+    _links: [
+      { rel: "self", href: req.originalUrl, method: req.method },
+      { rel: "list", href: req.baseUrl, method: "GET" },
+      { rel: "update", href: `${req.baseUrl}/${req.params._id}`, method: "PUT" },
+      { rel: "delete", href: `${req.baseUrl}/${req.params._id}`, method: "DELETE" },
+    ],
+  });
 }
 
-export const createUser = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-        const newUser = new User({ name, email, password });
-        await newUser.save();
-        res.status(httpStatus.CREATED).json(newUser);
-    } catch (error) {
-        res.status(httpStatus.BAD_REQUEST).json({
-            code: error.code,
-            message: error.message,
-        });
-    }
-};
+export const listUsers = async (req, res, next) => {
+  const users = await User.find({});
 
-export const updateUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updatedUser = await User.findByIdAndUpdate(id, req.body, { new: true });
-        if (!updatedUser) {
-            return res.status(httpStatus.NOT_FOUND).json({ message: "User not found" });
-        }
-        res.status(httpStatus.OK).json(updatedUser);
-    } catch (error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-    }
-};
+  res.ok({
+    users: users.map((user) => ({
+      ...user._doc,
+      _links: [
+        { rel: "self", href: `${req.baseUrl}/${user._id}`, method: "GET" },
+      ],
+    })),
+    _links: [
+      { rel: "self", href: req.baseUrl, method: "GET" },
+      { rel: "create", href: req.baseUrl, method: "POST" }
+    ],
+  });
+}
 
+export const createUser = async (req, res, next) => {
+  await new User(req.body).save();
 
-export const replaceUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { name, email, password } = req.body;
-        const replacedUser = await User.findOneAndReplace(
-            { _id: id },
-            { name, email, password },
-            { new: true }
-        );
-        if (!replacedUser) {
-            return res.status(httpStatus.NOT_FOUND).json({ message: "User not found" });
-        }
-        res.status(httpStatus.OK).json(replacedUser);
-    } catch (error) {
-        res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
-    }
-};
+  res.created();
+}
 
-export const deleteUser = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const deletedUser = await User.findByIdAndDelete(id);
-        if (!deletedUser) {
-            return res.status(httpStatus.NOT_FOUND).json({ message: "User not found" });
-        }
-        res.status(httpStatus.NO_CONTENT).send();
-    } catch (error) {
-        res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: error.message });
-    }
-};
+export const editUser = async (req, res, next) => {
+  const user = await User.findOneAndUpdate(req.params, req.body, { new: true });
+
+  res.ok({
+    ...user._doc,
+    _links: [
+      { rel: "self", href: req.originalUrl, method: req.method },
+      { rel: "list", href: req.baseUrl, method: "GET" },
+      { rel: "update", href: `${req.baseUrl}/${req.params._id}`, method: "PUT" },
+      { rel: "delete", href: `${req.baseUrl}/${req.params._id}`, method: "DELETE" },
+    ],
+  });
+}
+
+export const deleteUser = async (req, res, next) => {
+  await User.findByIdAndDelete(req.params._id);
+
+  res.no_content();
+}
