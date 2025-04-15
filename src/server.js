@@ -1,4 +1,3 @@
-// filepath: d:\tecnologias-emergentes-001\src\server.js
 import http from "node:http";
 import app from "./app.js";
 import dotenv from "dotenv";

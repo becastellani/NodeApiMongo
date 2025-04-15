@@ -1,5 +1,30 @@
 import User from "../models/userModel.js";
 
+export const login = async (req, res, next) => {
+  /*
+  #swagger.tags = ["Login"]
+  #swagger.security = [{ "BearerAuth": [] }]
+  */
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+      res.unauthorized();
+    }
+
+    const isMatch = await user.comparePassword(req.body.password);
+    if (!isMatch) {
+      res.unauthorized();
+    }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+
 export const showUser = async (req, res, next) => {
   const user = await User.findOne(req.params);
 

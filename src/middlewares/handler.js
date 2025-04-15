@@ -5,9 +5,9 @@ export default (_, res, next) => {
     .status(httpStatus.OK)
     .json(data);
 
-  res.created = () => res
+  res.created = (data) => res
     .status(httpStatus.CREATED)
-    .send();
+    .json(data);
 
   res.no_content = () => res
     .status(httpStatus.NO_CONTENT)
@@ -16,6 +16,14 @@ export default (_, res, next) => {
   res.internal_server_error = (data) => res
     .status(httpStatus.INTERNAL_SERVER_ERROR)
     .json(data);
+
+  res.unauthorized = () => res
+    .status(httpStatus.UNAUTHORIZED)
+    .send();
+
+  res.forbidden = () => res
+    .status(httpStatus.FORBIDDEN)
+    .send();
 
   next();
 }

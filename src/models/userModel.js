@@ -9,6 +9,11 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
 });
 
+// Metodo para comprar senhas
+userSchema.methods.comparePassword = function (password) {
+  return this.password === password;
+};
+
 const User = mongoose.model("User", userSchema);
 
 export default User;
