@@ -11,6 +11,8 @@ Este é um projeto básico de API REST para gerenciamento de **usuários** e **p
 - Helmet
 - Cors
 - HTTP Status Codes
+- RabbitMQ (mensageria)
+- Swagger (documentação de API)
 
 ## 📌 Como Rodar o Projeto
 
@@ -116,6 +118,38 @@ O servidor rodará na porta `4040`. A API estará disponível em `http://localho
 
 #### 5️⃣ Deletar um produto (DELETE)
 - **URL:** `DELETE /api/product/:id`
+
+---
+
+---
+
+### 🛒 Pedidos (Orders)
+
+- **Criar pedido:** `POST /api/orders`
+- **Listar pedidos:** `GET /api/orders`
+- **Mudar status de pedido:** `PATCH /api/orders/:id/status`
+
+**Observação:**  
+Ao criar um pedido, a API publica uma mensagem na fila `debt` via RabbitMQ com os dados do pedido e callback para criação do débito.
+
+---
+
+### 💳 Débitos (Debtors)
+
+- **Criar débito:** `POST /api/debtors`
+- **Listar débitos:** `GET /api/debtors`
+
+**Observação:**  
+A API consome a fila `debt`, cria um débito associado ao pedido e publica na fila `order` a atualização do status do pedido, aguardando pagamento.
+
+---
+
+## 📡 Integração com RabbitMQ
+
+O projeto utiliza **RabbitMQ** para comunicação assíncrona entre os serviços de **Orders** e **Debtors**. As mensagens são publicadas e consumidas de acordo com os eventos:
+
+- **Fila `debt`:** disparada ao criar pedido.
+- **Fila `order`:** utilizada para atualizar o status de um pedido após criação do débito.
 
 ---
 
